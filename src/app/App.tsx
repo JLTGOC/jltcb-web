@@ -1,3 +1,9 @@
+import LoginPage from "@/features/auth/LoginPage";
+
 export default function App() {
-  return <h1>TEst</h1>;
+  return (
+    <main>
+      <LoginPage />
+    </main>
+  );
 }
