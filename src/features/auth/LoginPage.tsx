@@ -31,7 +31,6 @@ export default function LoginPage() {
         {!selectedServiceId ? (
           <LoginMenu
             services={loginServices}
-            selectedServiceId="customs"
             onServiceSelect={handleServiceSelect}
           />
         ) : (

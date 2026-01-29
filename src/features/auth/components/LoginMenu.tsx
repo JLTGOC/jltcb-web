@@ -4,13 +4,11 @@ import type { LoginServiceId, LoginService } from "../types/types";
 
 type LoginMenuProps = {
   services: LoginService[];
-  selectedServiceId: LoginServiceId;
   onServiceSelect: (id: LoginServiceId) => void;
 };
 
 export default function LoginMenu({
   services,
-  selectedServiceId,
   onServiceSelect,
 }: LoginMenuProps) {
   return (
@@ -25,22 +23,24 @@ export default function LoginMenu({
         />
       </div>
       {/* menu items */}
-      <div className="flex justify-center items-center ">
+      <div className="flex justify-center items-center text-white">
         {services.map((service) => {
-          const isActive = service.id === selectedServiceId;
+          const isDisabled =
+            service.id === "business" || service.id === "logistics";
           return (
             <button
               key={service.id}
               type="button"
               onClick={() => onServiceSelect(service.id)}
+              disabled={isDisabled}
               className={`
-                flex flex-col items-center justify-center gap-4
-                transition-all duration-200
-                ${isActive ? "scale-105" : "opacity-70 hover:opacity-100"}
-              `}
+        flex flex-col items-center justify-center gap-4
+        transition-all duration-200  hover:text-jlt-yellow
+        ${isDisabled ? "opacity-70 cursor-not-allowed" : "opacity-100 hover:scale-105"}
+      `}
             >
               <img src={service.logos.light} alt={service.label} />
-              <p className="text-xl text-center uppercase font-extrabold text-white">
+              <p className="text-xl text-center uppercase font-extrabold">
                 {service.label}
               </p>
             </button>
