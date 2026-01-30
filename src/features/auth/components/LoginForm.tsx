@@ -1,6 +1,6 @@
 import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../schemas/loginSchema";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
@@ -10,9 +10,14 @@ import type { LoginService } from "../types/types";
 type LoginFormProps = {
   selectedService: LoginService;
   onBack: () => void;
+  onSubmit: (values: z.infer<typeof loginSchema>) => void;
 };
 
-export default function LoginForm({ selectedService, onBack }: LoginFormProps) {
+export default function LoginForm({
+  selectedService,
+  onBack,
+  onSubmit,
+}: LoginFormProps) {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -21,15 +26,8 @@ export default function LoginForm({ selectedService, onBack }: LoginFormProps) {
     },
   });
 
-  function onSubmit(data: z.infer<typeof loginSchema>) {
-    // Include the selected service in the submission
-    const loginData = {
-      ...data,
-      serviceId: selectedService.id,
-      redirectTo: selectedService.redirectTo,
-    };
-    console.log("Login data:", loginData);
-    // Handle authentication here
+  function handleSubmit(values: z.infer<typeof loginSchema>) {
+    onSubmit(values);
   }
 
   return (
@@ -71,7 +69,7 @@ export default function LoginForm({ selectedService, onBack }: LoginFormProps) {
       {/* Login form */}
       <form
         className="flex flex-col min-w-md"
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleSubmit)}
       >
         <FieldGroup className="gap-4">
           <Controller
@@ -110,7 +108,7 @@ export default function LoginForm({ selectedService, onBack }: LoginFormProps) {
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
                 )}
-              </Field> 
+              </Field>
             )}
           />
           <Field>

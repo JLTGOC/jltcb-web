@@ -1,4 +1,4 @@
-import LoginPage from "@/features/auth/LoginPage";
+import LoginPage from "@/app/routes/app/auth/LoginPage";
 
 export default function App() {
   return (
